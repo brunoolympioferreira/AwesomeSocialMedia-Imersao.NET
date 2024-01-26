@@ -39,5 +39,7 @@ public class User : AggregateRoot
         Description = description;
         Location = location;
         Contact = contact;
+
+        Events.Add(new UserUpdated(DisplayName, Header, Description, Location, Contact));
     }
 }

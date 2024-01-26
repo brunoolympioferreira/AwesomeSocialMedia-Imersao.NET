@@ -1,14 +1,17 @@
 ﻿using AwesomeSocialMedia.Users.Application.Models;
 using AwesomeSocialMedia.Users.Core.Repositories;
+using AwesomeSocialMedia.Users.Infrastructure.EventBus;
 using MediatR;
 
 namespace AwesomeSocialMedia.Users.Application.Commands.UpdateUser;
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, BaseResult>
 {
     private readonly IUserRepository _repository;
-    public UpdateUserCommandHandler(IUserRepository repository)
+    private readonly IEventBus _bus;
+    public UpdateUserCommandHandler(IUserRepository repository, IEventBus bus)
     {
         _repository = repository;
+        _bus = bus;
     }
     public async Task<BaseResult> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
@@ -22,6 +25,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, BaseR
             request.Contact.ToValueObject());
 
         await _repository.UpdateAsync(user);
+
+        _bus.Publish(user);
 
         return new BaseResult();
     }

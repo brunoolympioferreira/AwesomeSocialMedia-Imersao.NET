@@ -1,4 +1,5 @@
 ﻿using AwesomeSocialMedia.Users.Core.Repositories;
+using AwesomeSocialMedia.Users.Infrastructure.EventBus;
 using AwesomeSocialMedia.Users.Infrastructure.Persistence;
 using AwesomeSocialMedia.Users.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,9 @@ namespace AwesomeSocialMedia.Users.Infrastructure
             var connectionString = configuration.GetConnectionString("AwesomeSocialMediaCs");
             services
                 .AddDb(connectionString)
-                .AddRepositories();
+                .AddRepositories()
+                .AddEventBus();
+
 
             return services;
         }
@@ -30,6 +33,13 @@ namespace AwesomeSocialMedia.Users.Infrastructure
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddEventBus(this IServiceCollection services)
+        {
+            services.AddScoped<IEventBus, RabbitMqService>();
 
             return services;
         }

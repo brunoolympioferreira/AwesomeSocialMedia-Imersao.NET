@@ -27,7 +27,6 @@
     <None Remove="Infrastructure\Persistence\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Consumers\" />
     <Folder Include="Core\" />
     <Folder Include="Core\Entities\" />
     <Folder Include="Core\Repositories\" />
