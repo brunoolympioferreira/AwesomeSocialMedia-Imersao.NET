@@ -1,0 +1,37 @@
+{
+  "Routes": [
+    {
+      // luisdevapigateway.com/posts/...
+      // microserviceposts.com/api/posts
+      "UpstreamPathTemplate": "/posts/{everything}",
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5144
+        }
+      ],
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
+      "UpstreamPathTemplate": "/newsfeed/{everything}",
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5224
+        }
+      ],
+      "UpstreamHttpMethod": [ "GET" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "20s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      }
+    }
+  ]
+}
